@@ -160,4 +160,57 @@ const foodPartnerRegister = async (req, res) => {
   });
 };
 
-export { registerUser, loginUser, logOutUser, foodPartnerRegister };
+// food partner login
+const foodPartnerLogin = async (req, res) => {
+  const {email, password} = req.body;
+
+  if (!email || !password) {
+    return res.status(401).json({
+      message: "Email and Password is Required for Login.",
+    });
+  }
+
+  const foodPartner = await foodPartnerModel.findOne({ email });
+
+  if(!foodPartner) {
+    res.status(401).json({
+      message: "Email and Password is not valid.",
+    });
+  };
+
+  const isPasswordValid = await bcrypt.compare(password, foodPartner.password);
+
+  if(!isPasswordValid) {
+    res.status(401).json({
+      message: "Email and Password is not valid.",
+    });
+  };
+
+
+  const token = jwt.sign(
+    {
+      id: foodPartner._id,
+    },
+    process.env.JWT_SECRET
+  );
+
+  res.cookie("token", token);
+
+  res.status(201).json({
+    message: "Food Partner Logged in Successfully.",
+    foodPartner: {
+      _id: foodPartner._id,
+      email: foodPartner.email,
+      name: foodPartner.name,
+    },
+  });
+};
+
+const logOutFoodPartner = async (req, res) => {
+  res.clearCookie("token");
+  res.status(201).json({
+    message: "Food Partner logged out successfully.",
+  });
+};
+
+export { registerUser, loginUser, logOutUser, foodPartnerRegister, foodPartnerLogin, logOutFoodPartner };

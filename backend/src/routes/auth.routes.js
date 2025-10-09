@@ -1,5 +1,5 @@
 import express from 'express';
-import { foodPartnerRegister, loginUser, logOutUser, registerUser } from '../controllers/auth.controller.js';
+import { foodPartnerLogin, foodPartnerRegister, loginUser, logOutFoodPartner, logOutUser, registerUser } from '../controllers/auth.controller.js';
 
 const router = express.Router();
 
@@ -13,6 +13,8 @@ router.get("/user/logout", logOutUser);
 
 // food partner routes
 router.post("/food-partner/register", foodPartnerRegister);
+router.post("/food-partner/login", foodPartnerLogin);
+router.get("/food-partner/logout", logOutFoodPartner);
 
 
 export default router;
