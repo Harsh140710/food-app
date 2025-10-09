@@ -1,7 +1,9 @@
-import { userModel } from "../models/user.model.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import { userModel } from "../models/user.model.js";
+import { foodPartnerModel } from "../models/foodPartner.model.js";
 
+// normal user register
 const registerUser = async (req, res) => {
   const { fullName, email, password } = req.body;
 
@@ -39,7 +41,7 @@ const registerUser = async (req, res) => {
     {
       id: user._id,
     },
-    "96a10a25955716b2e24e72962b5ee71aabfbff12"
+    process.env.JWT_SECRET
   );
 
   res.cookie("token", token);
@@ -54,6 +56,7 @@ const registerUser = async (req, res) => {
   });
 };
 
+// normal user login
 const loginUser = async (req, res) => {
   const { email, password } = req.body;
 
@@ -71,10 +74,7 @@ const loginUser = async (req, res) => {
     });
   }
 
-  const isPasswordValid = await bcrypt.compare(
-    password,
-    user.password
-  );
+  const isPasswordValid = await bcrypt.compare(password, user.password);
 
   if (!isPasswordValid) {
     return res.status(400).json({
@@ -86,7 +86,7 @@ const loginUser = async (req, res) => {
     {
       id: user._id,
     },
-    "96a10a25955716b2e24e72962b5ee71aabfbff12"
+    process.env.JWT_SECRET
   );
 
   res.cookie("token", token);
@@ -101,4 +101,63 @@ const loginUser = async (req, res) => {
   });
 };
 
-export { registerUser, loginUser };
+// normal user logout
+const logOutUser = async (req, res) => {
+  res.clearCookie("token");
+  res.status(201).json({
+    message: "User logged out successfully.",
+  });
+};
+
+// food partner register
+const foodPartnerRegister = async (req, res) => {
+  const { name, email, password } = req.body;
+
+  if (!name || !email || !password) {
+    res.status(401).json({
+      message: "All fields are required.",
+    });
+  }
+
+  const isFoodPartnerExists = await foodPartnerModel.findOne({
+    email,
+  });
+
+  if (isFoodPartnerExists) {
+    res.status(402).json({
+      message: "Food Partner is already exists.",
+    });
+  }
+
+  const hashedPassword = await bcrypt.hash(password, 10);
+
+  if (password.length <= 6) {
+    return res.status(402).json({
+      message: "Password length must be greater than 6.",
+    });
+  }
+
+  const foodPartner = await foodPartnerModel.create({
+    name,
+    email,
+    password: hashedPassword,
+  });
+
+  const token = jwt.sign(
+    {
+      id: foodPartner._id,
+    },
+    process.env.JWT_SECRET
+  );
+
+  res.status(201).json({
+    message: "Food partner is registered successfully.",
+    foodPartner: {
+      id: foodPartner._id,
+      name: foodPartner.name,
+      email: foodPartner.email,
+    },
+  });
+};
+
+export { registerUser, loginUser, logOutUser, foodPartnerRegister };
