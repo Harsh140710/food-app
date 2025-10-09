@@ -206,6 +206,7 @@ const foodPartnerLogin = async (req, res) => {
   });
 };
 
+// food partner logout
 const logOutFoodPartner = async (req, res) => {
   res.clearCookie("token");
   res.status(201).json({

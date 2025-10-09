@@ -11,7 +11,9 @@ app.use(cookieParser());
 
 // routes starts from here
 import authRouter from './routes/auth.routes.js';
+import foodRouter from './routes/food.routes.js';
 
 app.use("/api/auth", authRouter);
+app.use("/api/food", foodRouter);
 
 export default app;
