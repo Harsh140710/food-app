@@ -150,6 +150,8 @@ const foodPartnerRegister = async (req, res) => {
     process.env.JWT_SECRET
   );
 
+  res.cookie("token", token);
+
   res.status(201).json({
     message: "Food partner is registered successfully.",
     foodPartner: {
