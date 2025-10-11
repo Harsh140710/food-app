@@ -1,18 +1,24 @@
 import { foodModel } from "../models/food.model.js";
+import { uploadFile } from "../services/storage.service.js";
+import { v4 as uuidV4 } from "uuid";
 
 const createFood = async (req, res) => {
-//   const { foodName, description } = req.body;
-//   const { video } = req.file;
+  const { name, description } = req.body;
 
-//   if (!foodName || !description || !foodPartner || !video) {
-//     res.status(403).json({
-//       message: "All Fields are required for creating food",
-//     });
-//   }
-    
-  console.log(req.foodPartner);
+  console.log(req.file)
+  const fileUploadedResult = await uploadFile(req.file.buffer, uuidV4());
 
-  res.send("Food item created")
+  const foodItem = await foodModel.create({
+    name: name,
+    description: description,
+    video: fileUploadedResult.url,
+    foodPartner: req.foodPartner._id
+  });
+
+  res.status(201).json({
+    message: "Food item is cerated successfully.",
+    foodItem
+  });
 };
 
 export { createFood };
