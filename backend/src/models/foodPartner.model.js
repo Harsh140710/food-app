@@ -2,7 +2,17 @@ import mongoose from "mongoose";
 
 const foodPartnerSchema = new mongoose.Schema(
   {
+    businessName: {
+      type: String,
+      required: true,
+    },
+
     name: {
+      type: String,
+      required: true,
+    },
+
+    phoneNumber: {
       type: String,
       required: true,
     },
@@ -17,8 +27,16 @@ const foodPartnerSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+
+    address: {
+      type: String,
+      required: true,
+    },
   },
   { timestamps: true }
 );
 
-export const foodPartnerModel = mongoose.model("foodPartner", foodPartnerSchema);
+export const foodPartnerModel = mongoose.model(
+  "foodPartner",
+  foodPartnerSchema
+);
