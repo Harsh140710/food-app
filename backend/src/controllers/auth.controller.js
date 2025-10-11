@@ -8,7 +8,7 @@ const registerUser = async (req, res) => {
   const { fullName, email, password } = req.body;
 
   if (!fullName || !email) {
-    return res.status(401).json({
+    return res.status(403).json({
       message: "FullName and Email is required.",
     });
   }
@@ -18,7 +18,7 @@ const registerUser = async (req, res) => {
   });
 
   if (isUserAlreadyExists) {
-    return res.status(400).json({
+    return res.status(401).json({
       message: "User is already Exists.",
     });
   }
@@ -26,7 +26,7 @@ const registerUser = async (req, res) => {
   const hashedPassword = await bcrypt.hash(password, 10);
 
   if (password.length <= 6) {
-    return res.status(401).json({
+    return res.status(403).json({
       message: "Password length must be greater than 6.",
     });
   }
