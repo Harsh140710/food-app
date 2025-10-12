@@ -13,5 +13,4 @@ const router = express.Router();
 
 router.post("/", authFoodPartnerMiddleware, upload.single("video"), createFood);
 router.get("/", authUserMiddleware, getFoodItem);
-
 export default router;
