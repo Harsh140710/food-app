@@ -2,6 +2,7 @@ import React from "react";
 import "../../index.css";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { toast } from "sonner";
 
 const UserRegister = () => {
   const navigate = useNavigate();
@@ -9,21 +10,28 @@ const UserRegister = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-
         const fullName = e.target.firstName.value;
         const email = e.target.email.value;
         const password = e.target.password.value;
         
-        const response = await axios.post("http://localhost:3000/api/auth/user/register",{
-            fullName: fullName,
-            email: email,
-            password: password
-        }, {
-            withCredentials:true,
-        });
-
-        navigate("/");
-        console.log(response.data);
+        try {
+          const response = await axios.post("http://localhost:3000/api/auth/user/register",{
+              fullName: fullName,
+              email: email,
+              password: password
+          }, {
+              withCredentials:true,
+          });
+  
+          toast.success("Welcome, " + fullName);
+          navigate("/");
+          console.log(response.data);
+        } catch (error) {
+          const message = error?.response?.data || "Registration Failed...!";
+          toast.error(message);
+          console.log(error.response.data);
+          
+        }
         
     }
 

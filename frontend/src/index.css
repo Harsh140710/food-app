@@ -1,29 +1,19 @@
 @import "./App.css";
+@import "tailwindcss";
 
-/* 🎨 THEME VARIABLES */
+/* THEME VARIABLES */
 :root {
   --bg-color: #fafafa;
   --text-color: #111111;
-  --primary-color: #0078ff;
+  --primary-color: #ff6b01;
   --input-bg: #ffffff;
-  --border-color: #dddddd;
+  --border-color: #ff5500;
   --card-bg: #ffffff;
   --shadow: rgba(0, 0, 0, 0.08);
+  --link-color: #2664f6;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --bg-color: #0e0e0e;
-    --text-color: #f1f1f1;
-    --primary-color: #3399ff;
-    --input-bg: #1a1a1a;
-    --border-color: #2c2c2c;
-    --card-bg: #161616;
-    --shadow: rgba(0, 0, 0, 0.6);
-  }
-}
-
-/* 🧱 RESET */
+/* RESET */
 * {
   box-sizing: border-box;
   margin: 0;
@@ -38,7 +28,7 @@ html, body {
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-/* 📱 LAYOUT */
+/* LAYOUT */
 .auth-container {
   display: flex;
   justify-content: center;
@@ -53,7 +43,7 @@ html, body {
   transition: background 0.3s ease;
 }
 
-/* 🧾 CARD */
+/* CARD */
 .auth-card {
   width: 100%;
   max-width: 400px;
@@ -64,7 +54,7 @@ html, body {
   transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
-/* 🏷️ TITLE */
+/* TITLE */
 .auth-title {
   text-align: center;
   font-size: 1.6rem;
@@ -72,7 +62,7 @@ html, body {
   margin-bottom: 1.8rem;
 }
 
-/* 🧾 FORM */
+/* FORM */
 .auth-form {
   display: flex;
   flex-direction: column;
@@ -97,7 +87,7 @@ html, body {
   border-color: var(--primary-color);
 }
 
-/* 🟦 BUTTON */
+/* BUTTON */
 .auth-btn {
   background-color: var(--primary-color);
   color: #fff;
@@ -114,7 +104,7 @@ html, body {
   transform: scale(1.02);
 }
 
-/* 🔗 LINK */
+/* LINK */
 .auth-link {
   text-align: center;
   margin-top: 1rem;
@@ -123,7 +113,7 @@ html, body {
 }
 
 .auth-link a {
-  color: var(--primary-color);
+  color: var(--link-color);
   text-decoration: none;
   font-weight: 500;
 }
@@ -132,7 +122,17 @@ html, body {
   text-decoration: underline;
 }
 
-/* 💻 RESPONSIVE */
+#description {
+  margin-bottom: 20px;
+}
+
+#visitStore {
+  padding: 10px 10px;
+  margin-left: -10px;
+  letter-spacing: 2px;
+}
+
+/* RESPONSIVE */
 @media (min-width: 768px) {
   .auth-card {
     padding: 2.5rem;
@@ -145,4 +145,112 @@ html, body {
   .auth-btn {
     font-size: 1.05rem;
   }
+}
+
+.poppins-thin {
+  font-family: "Poppins", sans-serif;
+  font-weight: 100;
+  font-style: normal;
+}
+
+.poppins-extralight {
+  font-family: "Poppins", sans-serif;
+  font-weight: 200;
+  font-style: normal;
+}
+
+.poppins-light {
+  font-family: "Poppins", sans-serif;
+  font-weight: 300;
+  font-style: normal;
+}
+
+.poppins-regular {
+  font-family: "Poppins", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.poppins-medium {
+  font-family: "Poppins", sans-serif;
+  font-weight: 500;
+  font-style: normal;
+}
+
+.poppins-semibold {
+  font-family: "Poppins", sans-serif;
+  font-weight: 600;
+  font-style: normal;
+}
+
+.poppins-bold {
+  font-family: "Poppins", sans-serif;
+  font-weight: 700;
+  font-style: normal;
+}
+
+.poppins-extrabold {
+  font-family: "Poppins", sans-serif;
+  font-weight: 800;
+  font-style: normal;
+}
+
+.poppins-black {
+  font-family: "Poppins", sans-serif;
+  font-weight: 900;
+  font-style: normal;
+}
+
+.poppins-thin-italic {
+  font-family: "Poppins", sans-serif;
+  font-weight: 100;
+  font-style: italic;
+}
+
+.poppins-extralight-italic {
+  font-family: "Poppins", sans-serif;
+  font-weight: 200;
+  font-style: italic;
+}
+
+.poppins-light-italic {
+  font-family: "Poppins", sans-serif;
+  font-weight: 300;
+  font-style: italic;
+}
+
+.poppins-regular-italic {
+  font-family: "Poppins", sans-serif;
+  font-weight: 400;
+  font-style: italic;
+}
+
+.poppins-medium-italic {
+  font-family: "Poppins", sans-serif;
+  font-weight: 500;
+  font-style: italic;
+}
+
+.poppins-semibold-italic {
+  font-family: "Poppins", sans-serif;
+  font-weight: 600;
+  font-style: italic;
+}
+
+.poppins-bold-italic {
+  font-family: "Poppins", sans-serif;
+  font-weight: 700;
+  font-style: italic;
+}
+
+.poppins-extrabold-italic {
+  font-family: "Poppins", sans-serif;
+  font-weight: 800;
+  font-style: italic;
+}
+
+.poppins-black-italic {
+  font-family: "Poppins", sans-serif;
+  font-weight: 900;
+  font-style: italic;
 }
