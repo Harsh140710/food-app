@@ -26,7 +26,7 @@ const Profile = () => {
         {/* Top Header Section */}
         <header className="profile-header">
           <div className="header-main">
-            <div className="profile-picture"></div>
+            <img src="https://images.unsplash.com/photo-1742201906101-428bb48b9866?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxmZWF0dXJlZC1waG90b3MtZmVlZHwxNXx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=60&w=500" alt="" className="profile-picture"/>
             <div className="business-details">
               <div className="business-name">{profile?.businessName}</div>
               <div className="business-address">{profile?.address}</div>
