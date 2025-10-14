@@ -30,4 +30,8 @@ const getFoodItem = async (req, res) => {
   })
 }
 
-export { createFood, getFoodItem };
+const likeFood = async (req, res) => {
+  
+}
+
+export { createFood, getFoodItem, likeFood };
