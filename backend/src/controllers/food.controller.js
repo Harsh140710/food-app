@@ -68,12 +68,12 @@ const likeFood = async (req, res) => {
   });
 
   await foodModel.findByIdAndUpdate(foodId, {
-      $inc: { likeCount: 1 },
-    });
+    $inc: { likeCount: 1 },
+  });
 
   res.status(201).json({
     message: "Food liked successfully.",
-    like
+    like,
   });
 };
 
@@ -97,6 +97,10 @@ const saveFood = async (req, res) => {
       food: foodId,
     });
 
+    await foodModel.findByIdAndUpdate(foodId, {
+      $inc: { saveCount: -1 },
+    });
+
     return res.status(200).json({
       message: "Food unsaved Successfully.",
     });
@@ -107,9 +111,13 @@ const saveFood = async (req, res) => {
     food: foodId,
   });
 
+  await foodModel.findByIdAndUpdate(foodId, {
+    $inc: { saveCount: 1 },
+  });
+
   res.status(201).json({
     message: "Food saved successfully.",
-    save
+    save,
   });
 };
 

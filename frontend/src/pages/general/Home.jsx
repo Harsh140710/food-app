@@ -1,11 +1,18 @@
 import axios from "axios";
-import React, { useEffect, useRef } from "react";
-import { Link } from "react-router-dom";
-import { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
+import BottomNav from "../../components/BottomNav.jsx";
+import VideoPlayer from "../../components/VideoPlayer.jsx";
 
 const Home = () => {
   const [videos, setVideos] = useState([]);
   const videoRefs = useRef(new Map());
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:3000/api/food", { withCredentials: true })
+      .then((response) => setVideos(response.data.foodItems))
+      .catch((error) => console.error("Error fetching food items:", error));
+  }, []);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -13,85 +20,44 @@ const Home = () => {
         entries.forEach((entry) => {
           const video = entry.target;
           if (entry.isIntersecting) {
-            video.play();
+            video.play().catch(error => console.log("Video autoplay was prevented:", error));
           } else {
             video.pause();
           }
         });
       },
-      { threshold: 0.8 }
+      { threshold: 0.8 } // Video needs to be 80% in view to play
     );
 
-    videoRefs.current.forEach((video) => {
+    const currentRefs = videoRefs.current;
+    currentRefs.forEach((video) => {
       if (video) observer.observe(video);
     });
 
-    return () => observer.disconnect();
-  }, []);
-
-  useEffect(() => {
-    axios
-      .get("http://localhost:3000/api/food",{withCredentials: true})
-      .then((response) => setVideos(response.data.foodItems))
-      .catch((error) => console.error("Error fetching food items:", error));
-  }, []);
+    return () => {
+      currentRefs.forEach((video) => {
+        if (video) observer.unobserve(video);
+      });
+    };
+  }, [videos]); // Rerun observer logic when videos are loaded
 
   return (
-    <div
-      className="h-screen w-full overflow-y-scroll snap-y snap-mandatory bg-black"
-      style={{
-        scrollSnapType: "y mandatory",
-        scrollBehavior: "smooth",
-        msOverflowStyle: "none",
-        scrollbarWidth: "none",
-      }}
-    >
-      <style>{`::-webkit-scrollbar { display: none; }`}</style>
+    <div className="h-screen w-full bg-black">
+      <div
+        className="h-full w-full overflow-y-scroll snap-y snap-mandatory"
+        style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
+      >
+        <style>{`::-webkit-scrollbar { display: none; }`}</style>
 
-      {videos.map((item) => (
-        <div
-          key={item._id}
-          className="relative h-screen w-full snap-start flex justify-center items-center"
-        >
-          {/* Video */}
-          <video
-            src={item.video}
-            className="h-full w-full object-cover"
-            loop
-            muted
-            preload="metadata"
-            playsInline
-            autoPlay
+        {videos.map((item) => (
+          <VideoPlayer
+            key={item._id}
+            item={item}
+            ref={(el) => videoRefs.current.set(item._id, el)}
           />
-
-          {/* Overlay text and button */}
-          <div className="absolute bottom-10 left-6 right-20 flex flex-col items-start max-w-[70%] space-y-10">
-            {/* Description */}
-            <p
-              id="description"
-              className="text-white text-lg sm:text-2xl font-semibold leading-snug mb-2 poppins-regular"
-              style={{
-                display: "-webkit-box",
-                WebkitLineClamp: 2,
-                WebkitBoxOrient: "vertical",
-                overflow: "hidden",
-                textOverflow: "ellipsis",
-              }}
-            >
-              {item.description}
-            </p>
-
-            {/* Button */}
-            <Link
-              to={"/food-partner/" + item.foodPartner}
-              id="visitStore"
-              className="bg-orange-500 text-white text-2xl rounded-full font-bold shadow-lg hover:bg-orange-600 transition-all scale-90 poppins-medium"
-            >
-              Visit Store
-            </Link>
-          </div>
-        </div>
-      ))}
+        ))}
+      </div>
+      <BottomNav />
     </div>
   );
 };
