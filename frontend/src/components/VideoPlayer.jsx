@@ -42,12 +42,12 @@ const VideoPlayer = React.forwardRef(({ item }, ref) => {
         <div className="flex justify-between items-end">
           {/* Left side: Description + Store Button */}
           <div className="flex flex-col items-start max-w-[70%] space-y-4">
-            <p className="text-white text-lg font-medium leading-tight line-clamp-2 overflow-hidden text-ellipsis break-words max-w-[100%]">
+            <p className="text-white text-lg font-medium leading-tight line-clamp-2 overflow-hidden text-ellipsis break-words max-w-[100%] tracking-wide">
               {item.description}
             </p>
             <Link
               to={`/food-partner/${item.foodPartner}`}
-              className="bg-orange-600 hover:bg-orange-700 text-white px-5 py-2 rounded-lg font-semibold shadow-lg transition-colors text-xl"
+              className="bg-orange-600 hover:bg-orange-700 text-white px-5 py-2 rounded-lg font-semibold shadow-lg transition-colors text-xl tracking-wider"
             >
               Visit store
             </Link>
