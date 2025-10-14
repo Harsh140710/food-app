@@ -1,36 +1,38 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
-import { AiFillHome } from "react-icons/ai";
-import { BsBookmarkFill } from "react-icons/bs";
+import { AiOutlineHome, AiFillHome } from "react-icons/ai";
+import { BsBookmark, BsBookmarkFill } from "react-icons/bs";
 
-const BottomNav = () => {
-  const activeLink = "text-white";
-  const normalLink = "text-gray-400";
+const BottomNav = () => (
+  <div className="fixed bottom-0 left-1/2 -translate-x-1/2 w-full bg-gray-900/80 backdrop-blur-sm border-t border-gray-700 z-50 rounded-tl-2xl rounded-tr-2xl">
+    <div className="flex justify-around items-center h-16">
+      <NavLink to="/">
+        {({ isActive }) => (
+          <div
+            className={`flex flex-col items-center gap-y-1 ${
+              isActive ? "text-white" : "text-gray-400"
+            }`}
+          >
+            {isActive ? <AiFillHome size={26} /> : <AiOutlineHome size={26} />}
+            <span className="text-xs font-medium">Home</span>
+          </div>
+        )}
+      </NavLink>
 
-  return (
-    <div className="fixed bottom-0 left-0 w-full bg-orange-400 border-t border-gray-800 z-50 rounded-tl-2xl rounded-tr-2xl">
-      <div className="flex justify-around items-center h-16">
-        <NavLink
-          to="/"
-          className={({ isActive }) => (isActive ? activeLink : normalLink)}
-        >
-          <div className="flex flex-col items-center">
-            <AiFillHome size={28} />
-            <span className="text-xs">Home</span>
+      <NavLink to="/saved">
+        {({ isActive }) => (
+          <div
+            className={`flex flex-col items-center gap-y-1 ${
+              isActive ? "text-white" : "text-gray-400"
+            }`}
+          >
+            {isActive ? <BsBookmarkFill size={22} /> : <BsBookmark size={22} />}
+            <span className="text-xs font-medium">Saved</span>
           </div>
-        </NavLink>
-        <NavLink
-          to="/saved"
-          className={({ isActive }) => (isActive ? activeLink : normalLink)}
-        >
-          <div className="flex flex-col items-center">
-            <BsBookmarkFill size={24} />
-            <span className="text-xs">Saved</span>
-          </div>
-        </NavLink>
-      </div>
+        )}
+      </NavLink>
     </div>
-  );
-};
+  </div>
+);
 
 export default BottomNav;

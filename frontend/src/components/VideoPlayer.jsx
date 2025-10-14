@@ -1,90 +1,90 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { AiFillHeart } from "react-icons/ai";
-import { BsBookmarkFill, BsFillChatDotsFill } from "react-icons/bs";
+import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
+import { BsBookmark, BsBookmarkFill, BsChatDots } from "react-icons/bs";
 
 const VideoPlayer = React.forwardRef(({ item }, ref) => {
   const [isLiked, setIsLiked] = useState(false);
   const [isSaved, setIsSaved] = useState(false);
-  const [likeCount, setLikeCount] = useState(item.likes || 23);
-  const [saveCount, setSaveCount] = useState(item.saves || 23);
-  const [commentCount, setCommentCount] = useState(item.comments || 45);
+
+  // Sample count state (you can later fetch from backend)
+  const [likeCount, setLikeCount] = useState(item.likes || 125);
+  const [saveCount, setSaveCount] = useState(item.saves || 52);
+  const [commentCount, setCommentCount] = useState(item.comments || 14);
 
   const handleLike = () => {
     setIsLiked(!isLiked);
-    setLikeCount(isLiked ? likeCount - 1 : likeCount + 1);
+    setLikeCount((prev) => (isLiked ? prev - 1 : prev + 1));
   };
 
   const handleSave = () => {
     setIsSaved(!isSaved);
-    setSaveCount(isSaved ? saveCount - 1 : saveCount + 1);
+    setSaveCount((prev) => (isSaved ? prev - 1 : prev + 1));
   };
 
   return (
-    <div className="relative h-screen w-full snap-start flex justify-center items-center">
-      {/* Video */}
+    <div className="relative h-screen w-full snap-start flex justify-center items-center bg-black">
       <video
         ref={ref}
         src={item.video}
         className="h-full w-full object-cover"
         loop
         muted
-        preload="metadata"
+        autoPlay
         playsInline
+        preload="metadata"
+        onClick={(e) =>
+          e.target.paused ? e.target.play() : e.target.pause()
+        }
       />
 
-      {/* Header */}
-      <h1 className="absolute top-5 left-5 text-white text-2xl font-bold z-10">Video</h1>
+      <div className="absolute top-0 left-0 h-full w-full p-4 pb-24 flex flex-col justify-end z-10">
+        <div className="flex justify-between items-end">
+          {/* Left side: Description + Store Button */}
+          <div className="flex flex-col items-start max-w-[70%] space-y-4">
+            <p className="text-white text-lg font-medium leading-tight line-clamp-2 overflow-hidden text-ellipsis break-words max-w-[100%]">
+              {item.description}
+            </p>
+            <Link
+              to={`/food-partner/${item.foodPartner}`}
+              className="bg-orange-600 hover:bg-orange-700 text-white px-5 py-2 rounded-lg font-semibold shadow-lg transition-colors text-xl"
+            >
+              Visit store
+            </Link>
+          </div>
 
-      {/* --- CORRECTED SECTION STARTS HERE --- */}
-      {/* Side Action Bar */}
-      <div className="absolute bottom-28 right-2 flex flex-col items-center gap-y-5 z-10 text-white">
-        
-        {/* Like Button */}
-        <div className="flex flex-col items-center cursor-pointer" onClick={handleLike}>
-          <AiFillHeart size={45} className={`${isLiked ? 'text-red-500' : 'text-white'}`} />
-          <span className="text-sm font-semibold">{likeCount}</span>
+          {/* Right side: Actions + Counts */}
+          <div className="flex flex-col items-center gap-y-8 mb-10">
+            <div
+              onClick={handleLike}
+              className="cursor-pointer flex flex-col items-center"
+            >
+              {isLiked ? (
+                <AiFillHeart size={45} className="text-red-500" />
+              ) : (
+                <AiOutlineHeart size={45} className="text-white" />
+              )}
+              <span className="text-white text-sm mt-1">{likeCount}</span>
+            </div>
+
+            <div
+              onClick={handleSave}
+              className="cursor-pointer flex flex-col items-center"
+            >
+              {isSaved ? (
+                <BsBookmarkFill size={38} className="text-white" />
+              ) : (
+                <BsBookmark size={38} className="text-white" />
+              )}
+              <span className="text-white text-sm mt-1">{saveCount}</span>
+            </div>
+
+            <div className="cursor-pointer flex flex-col items-center">
+              <BsChatDots size={38} className="text-white" />
+              <span className="text-white text-sm mt-1">{commentCount}</span>
+            </div>
+          </div>
         </div>
-        
-        {/* Save Button */}
-        <div className="flex flex-col items-center cursor-pointer" onClick={handleSave}>
-          <BsBookmarkFill size={40} className={`${isSaved ? 'text-yellow-400' : 'text-white'}`} />
-          <span className="text-sm font-semibold">{saveCount}</span>
-        </div>
-        
-        {/* Comment Button */}
-        <div className="flex flex-col items-center cursor-pointer">
-          <BsFillChatDotsFill size={40} />
-          <span className="text-sm font-semibold">{commentCount}</span>
-        </div>
-
-      </div>
-
-      {/* Bottom Info */}
-      <div className="absolute bottom-24 left-4 right-20 flex flex-col items-start max-w-[70%] space-y-4 z-10">
-        {/* Description */}
-        <p
-          id="description"
-          className="text-white text-lg font-medium"
-          style={{
-            display: "-webkit-box",
-            WebkitLineClamp: 2,
-            WebkitBoxOrient: "vertical",
-            overflow: "hidden",
-            textOverflow: "ellipsis",
-          }}
-        >
-          {item.description}
-        </p>
-
-        {/* Button */}
-        <Link
-          to={"/food-partner/" + item.foodPartner}
-          id="visitStore"
-          className="bg-orange-400 hover:bg-orange-500 text-white px-6 py-2 rounded-3xl font-bold shadow-lg transition-colors"
-        >
-          Visit store
-        </Link>
       </div>
     </div>
   );

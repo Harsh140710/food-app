@@ -1,5 +1,5 @@
-import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
+import axios from "axios";
 import BottomNav from "../../components/BottomNav.jsx";
 import VideoPlayer from "../../components/VideoPlayer.jsx";
 
@@ -20,31 +20,25 @@ const Home = () => {
         entries.forEach((entry) => {
           const video = entry.target;
           if (entry.isIntersecting) {
-            video.play().catch(error => console.log("Video autoplay was prevented:", error));
+            video.play().catch(() => {});
           } else {
             video.pause();
           }
         });
       },
-      { threshold: 0.8 } // Video needs to be 80% in view to play
+      { threshold: 0.8 }
     );
 
     const currentRefs = videoRefs.current;
-    currentRefs.forEach((video) => {
-      if (video) observer.observe(video);
-    });
+    currentRefs.forEach((video) => video && observer.observe(video));
 
-    return () => {
-      currentRefs.forEach((video) => {
-        if (video) observer.unobserve(video);
-      });
-    };
-  }, [videos]); // Rerun observer logic when videos are loaded
+    return () => currentRefs.forEach((video) => video && observer.unobserve(video));
+  }, [videos]);
 
   return (
-    <div className="h-screen w-full bg-black">
+    <div className="flex justify-center items-center w-full min-h-screen bg-gray-900">
       <div
-        className="h-full w-full overflow-y-scroll snap-y snap-mandatory"
+        className="relative w-full h-screen overflow-y-scroll snap-y snap-mandatory"
         style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
       >
         <style>{`::-webkit-scrollbar { display: none; }`}</style>
@@ -56,8 +50,9 @@ const Home = () => {
             ref={(el) => videoRefs.current.set(item._id, el)}
           />
         ))}
+
+        <BottomNav />
       </div>
-      <BottomNav />
     </div>
   );
 };
