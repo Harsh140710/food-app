@@ -12,15 +12,15 @@ const VideoPlayer = React.forwardRef(({ item }, ref) => {
   const [saveCount, setSaveCount] = useState(item.saves || 52);
   const [commentCount, setCommentCount] = useState(item.comments || 14);
 
-  const handleLike = () => {
-    setIsLiked(!isLiked);
-    setLikeCount((prev) => (isLiked ? prev - 1 : prev + 1));
-  };
+  // const handleLike = () => {
+  //   setIsLiked(!isLiked);
+  //   setLikeCount((prev) => (isLiked ? prev - 1 : prev + 1));
+  // };
 
-  const handleSave = () => {
-    setIsSaved(!isSaved);
-    setSaveCount((prev) => (isSaved ? prev - 1 : prev + 1));
-  };
+  // const handleSave = () => {
+  //   setIsSaved(!isSaved);
+  //   setSaveCount((prev) => (isSaved ? prev - 1 : prev + 1));
+  // };
 
   return (
     <div className="relative h-screen w-full snap-start flex justify-center items-center bg-black">
@@ -56,7 +56,6 @@ const VideoPlayer = React.forwardRef(({ item }, ref) => {
           {/* Right side: Actions + Counts */}
           <div className="flex flex-col items-center gap-y-8 mb-10">
             <div
-              onClick={handleLike}
               className="cursor-pointer flex flex-col items-center"
             >
               {isLiked ? (
@@ -68,7 +67,6 @@ const VideoPlayer = React.forwardRef(({ item }, ref) => {
             </div>
 
             <div
-              onClick={handleSave}
               className="cursor-pointer flex flex-col items-center"
             >
               {isSaved ? (

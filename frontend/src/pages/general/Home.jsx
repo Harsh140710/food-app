@@ -7,11 +7,18 @@ const Home = () => {
   const [videos, setVideos] = useState([]);
   const videoRefs = useRef(new Map());
 
-  useEffect(() => {
-    axios
-      .get("http://localhost:3000/api/food", { withCredentials: true })
-      .then((response) => setVideos(response.data.foodItems))
-      .catch((error) => console.error("Error fetching food items:", error));
+  useEffect(async () => {
+    try {
+      const response =  await axios
+        .get("http://localhost:3000/api/food", { withCredentials: true });
+
+        console.log(response.data.foodItems);
+        setVideos(response.data.foodItems)
+        
+    } catch (error) {
+      console.error("Error fetching food items:", error);
+    }
+      
   }, []);
 
   useEffect(() => {
