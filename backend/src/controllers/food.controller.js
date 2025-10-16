@@ -58,6 +58,8 @@ const likeFood = async (req, res) => {
     });
 
     return res.status(200).json({
+      success: true,
+      liked: false,
       message: "Food disliked Successfully.",
     });
   }
@@ -72,6 +74,8 @@ const likeFood = async (req, res) => {
   });
 
   res.status(201).json({
+    success: true,
+    liked: true,
     message: "Food liked successfully.",
     like,
   });
@@ -102,6 +106,8 @@ const saveFood = async (req, res) => {
     });
 
     return res.status(200).json({
+      success: true,
+      saved: false,
       message: "Food unsaved Successfully.",
     });
   }
@@ -116,6 +122,8 @@ const saveFood = async (req, res) => {
   });
 
   res.status(201).json({
+    success: true,
+    saved: true,
     message: "Food saved successfully.",
     save,
   });

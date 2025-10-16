@@ -2,25 +2,44 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
 import { BsBookmark, BsBookmarkFill, BsChatDots } from "react-icons/bs";
+import axios from "axios";
 
 const VideoPlayer = React.forwardRef(({ item }, ref) => {
   const [isLiked, setIsLiked] = useState(false);
   const [isSaved, setIsSaved] = useState(false);
 
   // Sample count state (you can later fetch from backend)
-  const [likeCount, setLikeCount] = useState(item.likes || 125);
-  const [saveCount, setSaveCount] = useState(item.saves || 52);
-  const [commentCount, setCommentCount] = useState(item.comments || 14);
+  const [likeCount, setLikeCount] = useState(item.likeCount || 0);
+  const [saveCount, setSaveCount] = useState(item.saveCount || 0);
+  const [commentCount, setCommentCount] = useState(item.comments || 0);
 
-  // const handleLike = () => {
-  //   setIsLiked(!isLiked);
-  //   setLikeCount((prev) => (isLiked ? prev - 1 : prev + 1));
-  // };
+  const handleLike = async () => {
+    const response = await axios.post(
+      "http://localhost:3000/api/food/like",
+      { foodId: item._id },
+      {
+        withCredentials: true,
+      }
+    );
 
-  // const handleSave = () => {
-  //   setIsSaved(!isSaved);
-  //   setSaveCount((prev) => (isSaved ? prev - 1 : prev + 1));
-  // };
+    const { liked } = response.data;
+    setIsLiked(liked);
+    setLikeCount((prev) => (liked ? prev + 1 : Math.max(0, prev - 1)));
+  };
+
+  const handleSave = async () => {
+    const response = await axios.post(
+      "http://localhost:3000/api/food/save",
+      { foodId: item._id },
+      {
+        withCredentials: true,
+      }
+    );
+
+    const { saved } = response.data;
+    setIsSaved(saved);
+    setSaveCount((prev) => (saved ? prev + 1 : Math.max(0, prev - 1)));
+  };
 
   return (
     <div className="relative h-screen w-full snap-start flex justify-center items-center bg-black">
@@ -33,9 +52,7 @@ const VideoPlayer = React.forwardRef(({ item }, ref) => {
         autoPlay
         playsInline
         preload="metadata"
-        onClick={(e) =>
-          e.target.paused ? e.target.play() : e.target.pause()
-        }
+        onClick={(e) => (e.target.paused ? e.target.play() : e.target.pause())}
       />
 
       <div className="absolute top-0 left-0 h-full w-full p-4 pb-24 flex flex-col justify-end z-10">
@@ -55,7 +72,8 @@ const VideoPlayer = React.forwardRef(({ item }, ref) => {
 
           {/* Right side: Actions + Counts */}
           <div className="flex flex-col items-center gap-y-8 mb-10">
-            <div
+            <button
+              onClick={handleLike}
               className="cursor-pointer flex flex-col items-center"
             >
               {isLiked ? (
@@ -64,9 +82,10 @@ const VideoPlayer = React.forwardRef(({ item }, ref) => {
                 <AiOutlineHeart size={45} className="text-white" />
               )}
               <span className="text-white text-sm mt-1">{likeCount}</span>
-            </div>
+            </button>
 
-            <div
+            <button
+              onClick={handleSave}
               className="cursor-pointer flex flex-col items-center"
             >
               {isSaved ? (
@@ -75,7 +94,7 @@ const VideoPlayer = React.forwardRef(({ item }, ref) => {
                 <BsBookmark size={38} className="text-white" />
               )}
               <span className="text-white text-sm mt-1">{saveCount}</span>
-            </div>
+            </button>
 
             <div className="cursor-pointer flex flex-col items-center">
               <BsChatDots size={38} className="text-white" />
