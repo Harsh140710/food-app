@@ -5,8 +5,8 @@ import { BsBookmark, BsBookmarkFill, BsChatDots } from "react-icons/bs";
 import axios from "axios";
 
 const VideoPlayer = React.forwardRef(({ item }, ref) => {
-  const [isLiked, setIsLiked] = useState(false);
-  const [isSaved, setIsSaved] = useState(false);
+  const [isLiked, setIsLiked] = useState(item.like);
+  const [isSaved, setIsSaved] = useState(item.save);
 
   const [likeCount, setLikeCount] = useState(item.likeCount || 0);
   const [saveCount, setSaveCount] = useState(item.saveCount || 0);

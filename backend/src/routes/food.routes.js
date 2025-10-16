@@ -1,6 +1,6 @@
 import express from 'express';
 import { authFoodPartnerMiddleware, authUserMiddleware } from '../middlewares/auth.middleware.js';
-import { createFood, getFoodItem, likeFood, saveFood } from '../controllers/food.controller.js';
+import { createFood, getFoodItem, getSavedFood, likeFood, saveFood } from '../controllers/food.controller.js';
 import multer, { memoryStorage } from 'multer';
 
 
@@ -16,4 +16,6 @@ router.get("/", authUserMiddleware, getFoodItem);
 
 router.post("/like", authUserMiddleware, likeFood);
 router.post("/save", authUserMiddleware, saveFood);
+
+router.get("/saved", authUserMiddleware, getSavedFood)
 export default router;
