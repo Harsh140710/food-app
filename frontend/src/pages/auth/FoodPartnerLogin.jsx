@@ -12,7 +12,7 @@ const FoodPartnerLogin = () => {
     const password = e.target.password.value;
 
     try {
-      const response = await axios.post(
+      await axios.post(
         "http://localhost:3000/api/auth/food-partner/login",
         { email, password },
         { withCredentials: true }
@@ -20,11 +20,9 @@ const FoodPartnerLogin = () => {
 
       toast.success("Welcome back Food Partner!");
       navigate("/create-food");
-      console.log(response.data);
     } catch (error) {
       const message = error?.response?.data || "Login Failed";
       toast.error(message);
-      console.log(error.response?.data);
     }
   };
 

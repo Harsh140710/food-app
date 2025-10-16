@@ -25,17 +25,15 @@ const CreateFood = () => {
       formData.append("description", description);
       formData.append("video", video);
 
-      const response = await axios.post("http://localhost:3000/api/food/", formData, {
+      await axios.post("http://localhost:3000/api/food/", formData, {
         withCredentials: true,
       });
 
       toast.success("Food added successfully!");
-      console.log(response.data.message);
       navigate("/");
     } catch (error) {
       const message = error?.response?.data || "Failed to add food!";
       toast.error(message);
-      console.log(error);
     }
   };
 

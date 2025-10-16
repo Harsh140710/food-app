@@ -8,7 +8,6 @@ const VideoPlayer = React.forwardRef(({ item }, ref) => {
   const [isLiked, setIsLiked] = useState(false);
   const [isSaved, setIsSaved] = useState(false);
 
-  // Sample count state (you can later fetch from backend)
   const [likeCount, setLikeCount] = useState(item.likeCount || 0);
   const [saveCount, setSaveCount] = useState(item.saveCount || 0);
   const [commentCount, setCommentCount] = useState(item.comments || 0);

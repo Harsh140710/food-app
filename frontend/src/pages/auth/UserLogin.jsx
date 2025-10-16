@@ -12,7 +12,7 @@ const UserLogin = () => {
     const password = e.target.password.value;
 
     try {
-      const response = await axios.post(
+      await axios.post(
         "http://localhost:3000/api/auth/user/login",
         { email, password },
         { withCredentials: true }
@@ -20,11 +20,9 @@ const UserLogin = () => {
 
       toast.success("Welcome back User!");
       navigate("/");
-      console.log(response.data);
     } catch (error) {
       const message = error.response?.data?.message || "Login Failed";
       toast.error(message);
-      console.log(error.response?.data);
     }
   };
 

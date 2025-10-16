@@ -20,7 +20,7 @@ const FoodPartnerRegister = () => {
     };
 
     try {
-      const response = await axios.post(
+      await axios.post(
         "http://localhost:3000/api/auth/food-partner/register",
         data,
         { withCredentials: true }
@@ -28,11 +28,9 @@ const FoodPartnerRegister = () => {
 
       toast.success("Welcome, Food Partner " + data.name);
       navigate("/create-food");
-      console.log(response.data);
     } catch (error) {
       const message = error?.response?.data || "Registration Failed...!";
       toast.error(message);
-      console.log(error.response?.data);
     }
   };
 

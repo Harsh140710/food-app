@@ -17,7 +17,7 @@ const UserRegister = () => {
     };
 
     try {
-      const response = await axios.post(
+      await axios.post(
         "http://localhost:3000/api/auth/user/register",
         data,
         { withCredentials: true }
@@ -25,11 +25,9 @@ const UserRegister = () => {
 
       toast.success("Welcome, " + data.fullName);
       navigate("/");
-      console.log(response.data);
     } catch (error) {
       const message = error?.response?.data || "Registration Failed...!";
       toast.error(message);
-      console.log(error.response?.data);
     }
   };
 
